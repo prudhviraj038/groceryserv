@@ -3,7 +3,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 var express = require('express');
 var app = express();
-//app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 console.log('Server running at http://127.0.0.1:8081/');
 
 app.get('/products', function (req, res) {
