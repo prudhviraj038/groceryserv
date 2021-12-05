@@ -18,7 +18,7 @@ MongoClient.connect(url, function(err, db) {
   });
 });
 })
-app.listen(8081);
+app.listen(80);
 
 // Console will print the message
 console.log('Server running at http://127.0.0.1:8081/');
