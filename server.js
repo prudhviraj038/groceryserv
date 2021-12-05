@@ -7,17 +7,17 @@ var app = express();
 console.log('Server running at http://127.0.0.1:8081/');
 
 app.get('/products', function (req, res) {
-//var url = "mongodb://localhost:27017/";
-//MongoClient.connect(url, function(err, db) {
-  //if (err) throw err;
-  //var dbo = db.db("testdb");
-  //dbo.collection("products").find({}).toArray(function(err, result) {
-    //if (err) throw err;
-    //console.log(result);
-    //res.end(JSON.stringify(result));
-    //db.close();
-  //});
-//});
+var url = process.env.MONGODB_URI;
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("groceryapp");
+  dbo.collection("products").find({}).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+    res.end(JSON.stringify(result));
+    db.close();
+  });
+});
 })
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, err => {
