@@ -1,0 +1,279 @@
+[
+{
+    
+    "id" : 1,
+    "title" : "tomato",
+    "price" : 100
+},
+
+
+{
+    
+    "id" : 2,
+    "title" : "brinjal",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 3,
+    "title" : "potato",
+    "price" : 40
+},
+
+
+{
+    
+    "id" : 4,
+    "title" : "dondakaya/coccina",
+    "price" : 60
+},
+
+
+{
+   
+    "id" : 5,
+    "title" : "carrot local",
+    "price" : 70
+},
+
+
+{
+    
+    "id" : 6,
+    "title" : "dosakaya/cucumber",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 7,
+    "title" : "kakarkaya/bitter gourd",
+    "price" : 50
+},
+
+
+{
+   
+    "id" : 8,
+    "title" : "kheera dosakaya/cucumber",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 9,
+    "title" : "bendakaya/ladies finger",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 10,
+    "title" : "ullipaya/onions",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 11,
+    "title" : "capsicum green/bengaluru mirapakaya",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 12,
+    "title" : "cabbage",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 13,
+    "title" : "beans round",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 14,
+    "title" : "beetroot",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 15,
+    "title" : "sorakaya / bottel gourd",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 16,
+    "title" : "beerakaya / ridge gourd",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 17,
+    "title" : "potlakaya/snake gourd",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 18,
+    "title" : "chikkudukaya/naatu/beans loacl",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 19,
+    "title" : "chilakada dumpa/sweet potato",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 20,
+    "title" : "cualiflower",
+    "price" : 30
+},
+
+
+{
+    
+    "id" : 21,
+    "title" : "radish white/mullangi",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 22,
+    "title" : "mirchi/mirapakayalu",
+    "price" : 80
+},
+
+
+{
+    
+    "id" : 23,
+    "title" : "brinjal round",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 24,
+    "title" : "sugar",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 25,
+    "title" : "kandipappu/toordal",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 26,
+    "title" : "atta/godhuma pindi",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 27,
+    "title" : "idli ravva/idli sooji",
+    "price" : 50
+},
+
+
+{
+   
+    "id" : 28,
+    "title" : "bombay ravva/sooji",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 29,
+    "title" : "godhuma ravva/sooji big",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 30,
+    "title" : "minapappu/urad dal/black",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 31,
+    "title" : "minapagullu/urad dal",
+    "price" : 50
+},
+
+
+{
+   
+    "id" : 32,
+    "title" : "maida",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 33,
+    "title" : "rice flour/biyyapu pindi",
+    "price" : 50
+},
+
+{
+    
+    "id" : 34,
+    "title" : "besan/senaga pindi",
+    "price" : 50
+},
+
+
+{
+    
+    "id" : 35,
+    "title" : "semiya/vermicelli",
+    "price" : 50
+}
+]
