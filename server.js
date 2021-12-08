@@ -37,6 +37,56 @@ MongoClient.connect(url, function(err, db) {
 })
 
 
+app.get('/kart', function (req, res) {
+var url = process.env.MONGODB_URI;
+    var id = req.query.id;
+    if(id){
+        MongoClient.connect(url, function(err, db) {
+          if (err) throw err;
+          var dbo = db.db("groceryapp");
+            dbo.collection("kart").find({"id": parseInt(id)}).toArray(function(err, result) {
+            if (err) throw err;
+            console.log(result);
+            res.end(JSON.stringify(result));
+            db.close();
+          });
+        });
+        
+    }
+    else{
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("groceryapp");
+  dbo.collection("kart").find({}).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+    res.end(JSON.stringify(result));
+    db.close();
+  });
+});
+    }
+})
+
+app.get('/kart/add', function (req, res) {
+var url = process.env.MONGODB_URI;
+    var id = req.query.id;
+    if(id){
+        MongoClient.connect(url, function(err, db) {
+          if (err) throw err;
+          var dbo = db.db("groceryapp");
+            var myobj = { product_id: 16, user_id: 2, qty: 1 };
+            dbo.collection("kart").insertOne(myobj,function(err, result) {
+            if (err) throw err;
+            console.log(result);
+            res.end(JSON.stringify(result));
+            db.close();
+          });
+        });
+        
+    }
+})
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, err => {
     if(err) throw err;
