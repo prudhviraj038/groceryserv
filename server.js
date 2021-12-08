@@ -19,7 +19,7 @@ var url = process.env.MONGODB_URI;
             res.end(JSON.stringify(result));
             db.close();
           });
-        });
+        }
     else{
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
