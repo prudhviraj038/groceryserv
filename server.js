@@ -19,6 +19,20 @@ MongoClient.connect(url, function(err, db) {
   });
 });
 })
+
+app.get('/products/:id', function (req, res) {
+var url = process.env.MONGODB_URI;
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("groceryapp");
+  dbo.collection("products").find({}).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+    res.end(JSON.stringify(result));
+    db.close();
+  });
+});
+})
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, err => {
     if(err) throw err;
