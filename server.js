@@ -8,7 +8,9 @@ console.log('Server running at http://127.0.0.1:8081/');
 
 app.get('/products', function (req, res) {
 var url = process.env.MONGODB_URI;
-    res.end('hello');
+    var id = req.query.id;
+
+    res.end(id);
 
 
 //MongoClient.connect(url, function(err, db) {
