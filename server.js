@@ -9,20 +9,20 @@ console.log('Server running at http://127.0.0.1:8081/');
 app.get('/products', function (req, res) {
 var url = process.env.MONGODB_URI;
     var id = req.query.id;
-
-    res.end(id);
-
-
-//MongoClient.connect(url, function(err, db) {
-//  if (err) throw err;
-//  var dbo = db.db("groceryapp");
-//  dbo.collection("products").find({}).toArray(function(err, result) {
-//    if (err) throw err;
-//    console.log(result);
-//    res.end(JSON.stringify(result));
-//    db.close();
-//  });
-//});
+    if(id){
+        res.end(id);
+    }else{
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("groceryapp");
+  dbo.collection("products").find({}).toArray(function(err, result) {
+    if (err) throw err;
+    console.log(result);
+    res.end(JSON.stringify(result));
+    db.close();
+  });
+});
+    }
 })
 
 
