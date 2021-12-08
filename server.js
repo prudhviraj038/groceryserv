@@ -13,7 +13,7 @@ var url = process.env.MONGODB_URI;
         MongoClient.connect(url, function(err, db) {
           if (err) throw err;
           var dbo = db.db("groceryapp");
-            dbo.collection("products").find({"id": 16}).toArray(function(err, result) {
+            dbo.collection("products").find({"id": parseInt(id)}).toArray(function(err, result) {
             if (err) throw err;
             console.log(result);
             res.end(JSON.stringify(result));
