@@ -92,7 +92,7 @@ var url = process.env.MONGODB_URI;
 
 app.post('/kart/delete', function (req, res) {
   var q_id = req.body._id;
-  var myobj = { _id: "61b17e3498ac83adcbae8941" };
+  var myobj = { _id: new mongodb.ObjectID('61b17e3498ac83adcbae8941')};
   var url = process.env.MONGODB_URI;
       if(true){
           MongoClient.connect(url, function(err, db) {
