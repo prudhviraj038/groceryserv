@@ -156,6 +156,8 @@ app.post('/kart/delete', function (req, res) {
     var quser_id = req.body.user_id;
     var qproduct_id = req.body.product_id;
     var qqty = req.body.qty;
+    console.log(req.body);
+
     var url = process.env.MONGODB_URI;
         if(true){
             MongoClient.connect(url, function(err, db) {
