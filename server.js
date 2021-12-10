@@ -90,6 +90,26 @@ var url = process.env.MONGODB_URI;
     }
 })
 
+app.post('/kart/delete', function (req, res) {
+  var q_id = req.body._id;
+  
+  
+  var url = process.env.MONGODB_URI;
+      if(true){
+          MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("groceryapp");
+              var myobj = { _id: q_id };
+              dbo.collection("kart").deleteOne(myobj,function(err, result) {
+              if (err) throw err;
+              console.log(result);
+              res.end(JSON.stringify(result));
+              db.close();
+            });
+          });
+          
+      }
+  })
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, err => {
