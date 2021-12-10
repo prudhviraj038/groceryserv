@@ -1,5 +1,6 @@
 var http = require("http");
 var MongoClient = require('mongodb').MongoClient;
+var mongodb = require('mongodb');
 
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -93,7 +94,7 @@ var url = process.env.MONGODB_URI;
 app.post('/kart/delete', function (req, res) {
   var q_id = req.body._id;
   var url = process.env.MONGODB_URI;
-  var myobj = { _id: new MongoClient.ObjectID('61b17e3498ac83adcbae8941')};
+  var myobj = { _id: new mongodb.ObjectId('61b17e3498ac83adcbae8941')};
 
       if(true){
           MongoClient.connect(url, function(err, db) {
