@@ -121,6 +121,59 @@ app.post('/kart/delete', function (req, res) {
       }
   })
 
+
+  app.get('/orders', function (req, res) {
+    var url = process.env.MONGODB_URI;
+        var id = req.query.id;
+        if(id){
+            MongoClient.connect(url, function(err, db) {
+              if (err) throw err;
+              var dbo = db.db("groceryapp");
+                dbo.collection("orders").find({"id": parseInt(id)}).toArray(function(err, result) {
+                if (err) throw err;
+                console.log(result);
+                res.end(JSON.stringify(result));
+                db.close();
+              });
+            });
+            
+        }
+        else{
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("groceryapp");
+      dbo.collection("orders").find({}).toArray(function(err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.end(JSON.stringify(result));
+        db.close();
+      });
+    });
+        }
+    })
+    
+    app.post('/orders/add', function (req, res) {
+    var quser_id = req.body.user_id;
+    var qproduct_id = req.body.product_id;
+    var qqty = req.body.qty;
+    var url = process.env.MONGODB_URI;
+        if(true){
+            MongoClient.connect(url, function(err, db) {
+              if (err) throw err;
+              var dbo = db.db("groceryapp");
+                var myobj = req.body;
+                dbo.collection("orders").insertOne(myobj,function(err, result) {
+                if (err) throw err;
+                console.log(result);
+                res.end(JSON.stringify(result));
+                db.close();
+              });
+            });
+            
+        }
+    })
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, err => {
     if(err) throw err;
