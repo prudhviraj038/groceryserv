@@ -69,7 +69,7 @@ MongoClient.connect(url, function(err, db) {
 
 app.post('/kart/add', function (req, res) {
 var url = process.env.MONGODB_URI;
-    if(id){
+    if(true){
         MongoClient.connect(url, function(err, db) {
           if (err) throw err;
           var dbo = db.db("groceryapp");
