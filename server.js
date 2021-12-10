@@ -95,6 +95,8 @@ app.post('/kart/delete', function (req, res) {
   var q_id = req.body._id;
   var url = process.env.MONGODB_URI;
   var myobj = { _id: new mongodb.ObjectId(String(q_id))};
+  console.log(myobj);
+
 
       if(true){
           MongoClient.connect(url, function(err, db) {
@@ -102,7 +104,6 @@ app.post('/kart/delete', function (req, res) {
             var dbo = db.db("groceryapp");
               dbo.collection("kart").deleteOne(myobj,function(err, result) {
               if (err) throw err;
-              console.log(myobj);
               res.end(JSON.stringify(myobj));
               db.close();
             });
