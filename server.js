@@ -99,7 +99,7 @@ app.post('/kart/delete', function (req, res) {
           MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("groceryapp");
-              var myobj = { qty: q_id };
+              var myobj = { _id: q_id };
               dbo.collection("kart").deleteOne(myobj,function(err, result) {
               if (err) throw err;
               console.log(result);
