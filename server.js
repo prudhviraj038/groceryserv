@@ -67,7 +67,7 @@ MongoClient.connect(url, function(err, db) {
     }
 })
 
-app.get('/kart/add', function (req, res) {
+app.post('/kart/add', function (req, res) {
 var url = process.env.MONGODB_URI;
     var id = req.query.id;
     if(id){
