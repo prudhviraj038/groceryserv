@@ -2,7 +2,10 @@ var http = require("http");
 var MongoClient = require('mongodb').MongoClient;
 
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 console.log('Server running at http://127.0.0.1:8081/');
 
@@ -35,8 +38,6 @@ MongoClient.connect(url, function(err, db) {
 });
     }
 })
-
-
 app.get('/kart', function (req, res) {
 var url = process.env.MONGODB_URI;
     var id = req.query.id;
@@ -68,12 +69,16 @@ MongoClient.connect(url, function(err, db) {
 })
 
 app.post('/kart/add', function (req, res) {
+var quser_id = req.body.user_id;
+var qproduct_id = req.body.product_id;
+var qqty = req.body.qty;
+
 var url = process.env.MONGODB_URI;
     if(true){
         MongoClient.connect(url, function(err, db) {
           if (err) throw err;
           var dbo = db.db("groceryapp");
-            var myobj = { product_id: 16, user_id: 2, qty: 1 };
+            var myobj = { product_id: qproduct_id, user_id: quser_id, qty: qqty };
             dbo.collection("kart").insertOne(myobj,function(err, result) {
             if (err) throw err;
             console.log(result);
