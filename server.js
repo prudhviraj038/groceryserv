@@ -69,7 +69,6 @@ MongoClient.connect(url, function(err, db) {
 
 app.post('/kart/add', function (req, res) {
 var url = process.env.MONGODB_URI;
-    var id = req.query.id;
     if(id){
         MongoClient.connect(url, function(err, db) {
           if (err) throw err;
