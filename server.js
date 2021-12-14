@@ -175,6 +175,27 @@ app.post('/kart/delete', function (req, res) {
         }
     })
 
+    app.post('/users/add', function (req, res) {
+     
+      console.log(req.body);
+  
+      var url = process.env.MONGODB_URI;
+          if(true){
+              MongoClient.connect(url, function(err, db) {
+                if (err) throw err;
+                var dbo = db.db("groceryapp");
+                  var myobj = req.body;
+                  dbo.collection("users").insertOne(myobj,function(err, result) {
+                  if (err) throw err;
+                  console.log(result);
+                  res.end(JSON.stringify(result));
+                  db.close();
+                });
+              });
+              
+          }
+      })
+  
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, err => {
