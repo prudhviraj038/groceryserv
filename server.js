@@ -122,7 +122,7 @@ app.post('/kart/delete', function (req, res) {
   })
 
 
-  app.get('/orders', function (req, res) {
+app.get('/orders', function (req, res) {
     var url = process.env.MONGODB_URI;
         var id = req.query.id;
         if(id){
@@ -150,9 +150,9 @@ app.post('/kart/delete', function (req, res) {
       });
     });
         }
-    })
+  })
     
-    app.post('/orders/add', function (req, res) {
+app.post('/orders/add', function (req, res) {
     var quser_id = req.body.user_id;
     var qproduct_id = req.body.product_id;
     var qqty = req.body.qty;
@@ -173,9 +173,9 @@ app.post('/kart/delete', function (req, res) {
             });
             
         }
-    })
+  })
 
-    app.post('/users/add', function (req, res) {
+app.post('/users/add', function (req, res) {
      
       console.log(req.body);
   
@@ -194,9 +194,28 @@ app.post('/kart/delete', function (req, res) {
               });
               
           }
-      })
+  })
   
-
+app.post('/users/login', function (req, res) {
+     
+        console.log(req.body);
+    
+        var url = process.env.MONGODB_URI;
+            if(true){
+                MongoClient.connect(url, function(err, db) {
+                  if (err) throw err;
+                  var dbo = db.db("groceryapp");
+                    var myobj = req.body;
+                    dbo.collection("users").findOne(myobj,function(err, result) {
+                    if (err) throw err;
+                    console.log(result);
+                    res.end(JSON.stringify(result));
+                    db.close();
+                  });
+                });
+                
+            }
+        })
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, err => {
     if(err) throw err;
