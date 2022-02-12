@@ -125,6 +125,7 @@ app.post('/kart/delete', function (req, res) {
 app.get('/orders', function (req, res) {
     var url = process.env.MONGODB_URI;
         var id = req.query.id;
+        var user_id = req.query.user_id;
         if(id){
             MongoClient.connect(url, function(err, db) {
               if (err) throw err;
@@ -137,6 +138,17 @@ app.get('/orders', function (req, res) {
               });
             });
             
+        }else if(user_id){
+          MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("groceryapp");
+              dbo.collection("orders").find({"user_id": parseInt(user_id)}).toArray(function(err, result) {
+              if (err) throw err;
+              console.log(result);
+              res.end(JSON.stringify(result));
+              db.close();
+            });
+          });
         }
         else{
     MongoClient.connect(url, function(err, db) {
