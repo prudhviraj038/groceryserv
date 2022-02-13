@@ -130,7 +130,7 @@ app.get('/orders', function (req, res) {
             MongoClient.connect(url, function(err, db) {
               if (err) throw err;
               var dbo = db.db("groceryapp");
-                dbo.collection("orders").find({"id": parseInt(id)}).toArray(function(err, result) {
+                dbo.collection("orders").find({"_id": parseInt(id)}).toArray(function(err, result) {
                 if (err) throw err;
                 console.log(result);
                 res.end(JSON.stringify(result));
