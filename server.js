@@ -89,7 +89,11 @@ var url = process.env.MONGODB_URI;
       MongoClient.connect(url, function(err, db) {
         if (err) throw err;
         var dbo = db.db("groceryapp");
-          dbo.collection("kart").find({"user_id": user_id}).aggregate([{
+          dbo.collection("kart").aggregate([{
+           $match: {
+            "user_id": user_id
+           },
+           
             $lookup: {
                     from: "products",
                     localField: "product_id",
