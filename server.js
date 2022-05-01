@@ -319,7 +319,9 @@ var url = process.env.MONGODB_URI;
         MongoClient.connect(url, function(err, db) {
           if (err) throw err;
           var dbo = db.db("groceryapp");
-            var myobj = { product_id: qproduct_id, user_id: quser_id, qty: qqty };
+           // var myobj = { product_id: qproduct_id, user_id: quser_id, qty: qqty };
+             var myobj = req.body;
+             console.log(JSON.stringify(myobj));
             dbo.collection("address").insertOne(myobj,function(err, result) {
             if (err) throw err;
             console.log(result);
