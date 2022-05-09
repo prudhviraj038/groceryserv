@@ -1,6 +1,7 @@
 var http = require("http");
 var MongoClient = require('mongodb').MongoClient;
 var mongodb = require('mongodb');
+var Razorpay = require('razorpay')
 
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -229,6 +230,34 @@ app.post('/orders/add', function (req, res) {
             });
             
         }
+  })
+
+
+  app.get('/orders/test', function (req, res) {
+    var quser_id = req.body.user_id;
+    var qproduct_id = req.body.product_id;
+    var qqty = req.body.qty;
+
+    console.log(req.body);
+
+    var instance = new Razorpay({ key_id:'rzp_live_Jb39VzSTksL2aU', key_secret:'3C19y3YhhUbbD2bmaz6r6Sdi'})
+
+    instance.orders.create({
+      amount: 50000,
+      currency: "INR",
+      receipt: "receipt#1",
+      notes: {
+        key1: "value3",
+        key2: "value2"
+      }
+    })
+    .then(response => {
+      res.end(JSON.stringify(response));
+    })
+    .catch(error => {
+      res.end(JSON.stringify(error));
+    });
+
   })
 
 app.post('/users/add', function (req, res) {
