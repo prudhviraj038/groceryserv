@@ -13,6 +13,35 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 console.log('Server running at http://127.0.0.1:8081/');
 
+
+app.get('/banners', function (req, res) {
+  var url = process.env.MONGODB_URI;    
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("groceryapp");
+    dbo.collection("banners").find({}).toArray(function(err, result) {
+      if (err) throw err;
+      console.log(result);
+      res.end(JSON.stringify(result));
+      db.close();
+    });
+  });
+})
+
+app.get('/categories', function (req, res) {
+  var url = process.env.MONGODB_URI;    
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("groceryapp");
+    dbo.collection("categories").find({}).toArray(function(err, result) {
+      if (err) throw err;
+      console.log(result);
+      res.end(JSON.stringify(result));
+      db.close();
+    });
+  });
+})
+
 app.get('/products', function (req, res) {
 var url = process.env.MONGODB_URI;
     var id = req.query.id;
