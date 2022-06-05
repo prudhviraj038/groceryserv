@@ -49,7 +49,20 @@ var url = process.env.MONGODB_URI;
         MongoClient.connect(url, function(err, db) {
           if (err) throw err;
           var dbo = db.db("groceryapp");
-            dbo.collection("products").find({"id": parseInt(id)}).toArray(function(err, result) {
+
+            dbo.collection("products").aggregate([
+              {
+            $lookup: {
+                    from: "kart",
+                    pipeline: [
+                      { $match: { "user_id": id } }
+                   ],
+                    localField: "id",
+                    foreignField: "product_id",
+                    as: "kart_details"
+                } 
+              }
+          ]).toArray(function(err, result) {
             if (err) throw err;
             console.log(result);
             res.end(JSON.stringify(result));
@@ -58,7 +71,7 @@ var url = process.env.MONGODB_URI;
         });
         
     }
-    else{
+    else{ 
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
   var dbo = db.db("groceryapp");
