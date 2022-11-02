@@ -261,7 +261,7 @@ app.get('/orders', function (req, res) {
             MongoClient.connect(url, function(err, db) {
               if (err) throw err;
               var dbo = db.db("groceryapp");
-                var myobj = { products: qproducts, user_id: quser_id, price: qprice };
+                var myobj = { user_id: quser_id };
                 dbo.collection("orders").insertOne(myobj,function(err, result) {
                 if (err) throw err;
                 console.log(result);
