@@ -274,7 +274,7 @@ app.get('/orders', function (req, res) {
     })
 
 
-  app.get('/orders/test', function (req, res) {
+  app.post('/orders/test', function (req, res) {
     var price = req.body.price;
 
     console.log(req.body);
