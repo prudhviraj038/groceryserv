@@ -275,16 +275,14 @@ app.get('/orders', function (req, res) {
 
 
   app.get('/orders/test', function (req, res) {
-    var quser_id = req.body.user_id;
-    var qproduct_id = req.body.product_id;
-    var qqty = req.body.qty;
+    var price = req.body.price;
 
     console.log(req.body);
 
     var instance = new Razorpay({ key_id:'rzp_live_Jb39VzSTksL2aU', key_secret:'3C19y3YhhUbbD2bmaz6r6Sdi'})
 
     instance.orders.create({
-      amount: 50000,
+      amount: price*100,
       currency: "INR",
       receipt: "receipt#1",
       notes: {
