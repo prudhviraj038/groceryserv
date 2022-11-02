@@ -251,18 +251,17 @@ app.get('/orders', function (req, res) {
         }
   })
     
-app.post('/orders/add', function (req, res) {
+  app.post('/orders/add', function (req, res) {
     var quser_id = req.body.user_id;
-    var qproduct_id = req.body.product_id;
-    var qqty = req.body.qty;
-    console.log(req.body);
-
+    var qproducts = req.body.products;
+    var qprice = req.body.price;
+    
     var url = process.env.MONGODB_URI;
         if(true){
             MongoClient.connect(url, function(err, db) {
               if (err) throw err;
               var dbo = db.db("groceryapp");
-                var myobj = req.body;
+                var myobj = { products: qproducts, user_id: quser_id, price: qprice };
                 dbo.collection("orders").insertOne(myobj,function(err, result) {
                 if (err) throw err;
                 console.log(result);
@@ -272,7 +271,7 @@ app.post('/orders/add', function (req, res) {
             });
             
         }
-  })
+    })
 
 
   app.get('/orders/test', function (req, res) {
