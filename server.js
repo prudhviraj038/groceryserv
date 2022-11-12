@@ -270,13 +270,14 @@ app.get('/orders', function (req, res) {
     var quser_id = req.body.user_id;
     var qproducts = req.body.products;
     var qprice = req.body.price;
-    
+    var address_id = req.body.address_id;
+
     var url = process.env.MONGODB_URI;
         if(true){
             MongoClient.connect(url, function(err, db) {
               if (err) throw err;
               var dbo = db.db("groceryapp");
-                var myobj = { products: qproducts, user_id: quser_id, price: qprice };
+                var myobj = { products: qproducts, user_id: quser_id, price: qprice, address_id:address_id };
                 dbo.collection("orders").insertOne(myobj,function(err, result) {
                 if (err) throw err;
                 console.log(result);
