@@ -216,7 +216,7 @@ app.post('/kart/delete', function (req, res) {
             MongoClient.connect(url, function(err, db) {
               if (err) throw err;
               var dbo = db.db("groceryapp");
-                dbo.collection("kart").updateOne({product_id:req.body.product_id,user_id:req.body.user_id},{qty:req.body.qty},function(err, result) {
+                dbo.collection("kart").updateOne({product_id:req.body.product_id,user_id:req.body.user_id},{ $set:{qty:req.body.qty}},function(err, result) {
                 if (err) throw err;
                 res.end(JSON.stringify(result));
                 db.close();
