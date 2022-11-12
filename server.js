@@ -208,7 +208,22 @@ app.post('/kart/delete', function (req, res) {
       }
   })
 
-
+  app.post('/kart/update', function (req, res) {
+    var q_id = req.body._id;
+    var url = process.env.MONGODB_URI;
+    var myobj = { _id: new mongodb.ObjectId(q_id)};
+        if(true){
+            MongoClient.connect(url, function(err, db) {
+              if (err) throw err;
+              var dbo = db.db("groceryapp");
+                dbo.collection("kart").updateOne({product_id:req.body.product_id,user_id:req.body.user_id},function(err, result) {
+                if (err) throw err;
+                res.end(JSON.stringify(result));
+                db.close();
+              });
+            });         
+        }
+    })
 app.get('/orders', function (req, res) {
     var url = process.env.MONGODB_URI;
         var id = req.query.id;
