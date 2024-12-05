@@ -2,7 +2,7 @@ var http = require("http");
 var MongoClient = require('mongodb').MongoClient;
 var mongodb = require('mongodb');
 var Razorpay = require('razorpay')
-
+require('dotenv').config();
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
@@ -12,17 +12,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 console.log('Server running at http://127.0.0.1:8081/');
+console.log(process.env.MONGODB_URI);
 
 
 app.get('/banners', function (req, res) {
   var url = process.env.MONGODB_URI;    
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("groceryapp");
+    var dbo = db.db("grocery");
     dbo.collection("banners").find({}).toArray(function(err, result) {
       if (err) throw err;
       console.log(result);
-      res.end(JSON.stringify(result));
+      res.send(JSON.stringify(result));
       db.close();
     });
   });
@@ -32,11 +33,11 @@ app.get('/categories', function (req, res) {
   var url = process.env.MONGODB_URI;    
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("groceryapp");
+    var dbo = db.db("grocery");
     dbo.collection("categories").find({}).toArray(function(err, result) {
       if (err) throw err;
       console.log(result);
-      res.end(JSON.stringify(result));
+      res.send(JSON.stringify(result));
       db.close();
     });
   });
@@ -48,24 +49,24 @@ var url = process.env.MONGODB_URI;
     if(id){
         MongoClient.connect(url, function(err, db) {
           if (err) throw err;
-          var dbo = db.db("groceryapp");
+          var dbo = db.db("grocery");
 
-            dbo.collection("products").aggregate([
-              {
-            $lookup: {
+          dbo.collection("products").aggregate([
+            {
+                $lookup: {
                     from: "kart",
+                    let: { productId: "$id" },
                     pipeline: [
-                      { $match: { "user_id": id } }
-                   ],
-                    localField: "id",
-                    foreignField: "product_id",
+                        { $match: { $expr: { $eq: ["$product_id", "$$productId"] } } },
+                        { $match: { user_id: id } }
+                    ],
                     as: "kart_details"
-                } 
-              }
-          ]).toArray(function(err, result) {
+                }
+            }
+        ]).toArray(function(err, result) {
             if (err) throw err;
             console.log(result);
-            res.end(JSON.stringify(result));
+            res.send(JSON.stringify(result));
             db.close();
           });
         });
@@ -74,11 +75,11 @@ var url = process.env.MONGODB_URI;
     else{ 
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  var dbo = db.db("groceryapp");
+  var dbo = db.db("grocery");
   dbo.collection("products").find({}).toArray(function(err, result) {
     if (err) throw err;
     console.log(result);
-    res.end(JSON.stringify(result));
+    res.send(JSON.stringify(result));
     db.close();
   });
 });
@@ -91,11 +92,11 @@ app.get('/users', function (req, res) {
       if(id){
           MongoClient.connect(url, function(err, db) {
             if (err) throw err;
-            var dbo = db.db("groceryapp");
+            var dbo = db.db("grocery");
               dbo.collection("users").find({"id": mongodb.ObjectId(id)}).toArray(function(err, result) {
               if (err) throw err;
               console.log(result);
-              res.end(JSON.stringify(result));
+              res.send(JSON.stringify(result));
               db.close();
             });
           });
@@ -104,11 +105,11 @@ app.get('/users', function (req, res) {
       else{
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    var dbo = db.db("groceryapp");
+    var dbo = db.db("grocery");
     dbo.collection("users").find({}).toArray(function(err, result) {
       if (err) throw err;
       console.log(result);
-      res.end(JSON.stringify(result));
+      res.send(JSON.stringify(result));
       db.close();
     });
   });
@@ -121,11 +122,11 @@ var url = process.env.MONGODB_URI;
     if(id){
         MongoClient.connect(url, function(err, db) {
           if (err) throw err;
-          var dbo = db.db("groceryapp");
+          var dbo = db.db("grocery");
             dbo.collection("kart").find({"id": parseInt(id)}).toArray(function(err, result) {
             if (err) throw err;
             console.log(result);
-            res.end(JSON.stringify(result));
+            res.send(JSON.stringify(result));
             db.close();
           });
         });
@@ -133,7 +134,7 @@ var url = process.env.MONGODB_URI;
     }else if(user_id){
       MongoClient.connect(url, function(err, db) {
         if (err) throw err;
-        var dbo = db.db("groceryapp");
+        var dbo = db.db("grocery");
           dbo.collection("kart").aggregate([
             {
            $match: {
@@ -150,7 +151,7 @@ var url = process.env.MONGODB_URI;
         ]).toArray(function(err, result) {
           if (err) throw err;
           console.log(result);
-          res.end(JSON.stringify(result));
+          res.send(JSON.stringify(result));
           db.close();
         });
       });
@@ -158,11 +159,11 @@ var url = process.env.MONGODB_URI;
   } else{
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  var dbo = db.db("groceryapp");
+  var dbo = db.db("grocery");
   dbo.collection("kart").find({}).toArray(function(err, result) {
   if (err) throw err;
   console.log(result);
-  res.end(JSON.stringify(result));
+  res.send(JSON.stringify(result));
   db.close();
 });
 });
@@ -178,12 +179,12 @@ var url = process.env.MONGODB_URI;
     if(true){
         MongoClient.connect(url, function(err, db) {
           if (err) throw err;
-          var dbo = db.db("groceryapp");
+          var dbo = db.db("grocery");
             var myobj = { product_id: qproduct_id, user_id: quser_id, qty: qqty };
             dbo.collection("kart").insertOne(myobj,function(err, result) {
             if (err) throw err;
             console.log(result);
-            res.end(JSON.stringify(result));
+            res.send(JSON.stringify(result));
             db.close();
           });
         });
@@ -198,10 +199,10 @@ app.post('/kart/delete', function (req, res) {
       if(true){
           MongoClient.connect(url, function(err, db) {
             if (err) throw err;
-            var dbo = db.db("groceryapp");
+            var dbo = db.db("grocery");
               dbo.collection("kart").deleteOne(myobj,function(err, result) {
               if (err) throw err;
-              res.end(JSON.stringify(result));
+              res.send(JSON.stringify(result));
               db.close();
             });
           });         
@@ -215,10 +216,10 @@ app.post('/kart/delete', function (req, res) {
         if(true){
             MongoClient.connect(url, function(err, db) {
               if (err) throw err;
-              var dbo = db.db("groceryapp");
+              var dbo = db.db("grocery");
                 dbo.collection("kart").updateOne({product_id:req.body.product_id,user_id:req.body.user_id},{ $set:{qty:req.body.qty}},function(err, result) {
                 if (err) throw err;
-                res.end(JSON.stringify(result));
+                res.send(JSON.stringify(result));
                 db.close();
               });
             });         
@@ -231,11 +232,11 @@ app.get('/orders', function (req, res) {
         if(id){
             MongoClient.connect(url, function(err, db) {
               if (err) throw err;
-              var dbo = db.db("groceryapp");
+              var dbo = db.db("grocery");
                 dbo.collection("orders").find({"_id": mongodb.ObjectId(id)}).toArray(function(err, result) {
                 if (err) throw err;
                 console.log(result);
-                res.end(JSON.stringify(result));
+                res.send(JSON.stringify(result));
                 db.close();
               });
             });
@@ -243,11 +244,11 @@ app.get('/orders', function (req, res) {
         }else if(user_id){
           MongoClient.connect(url, function(err, db) {
             if (err) throw err;
-            var dbo = db.db("groceryapp");
+            var dbo = db.db("grocery");
               dbo.collection("orders").find({"user_id": user_id}).toArray(function(err, result) {
               if (err) throw err;
               console.log(result);
-              res.end(JSON.stringify(result));
+              res.send(JSON.stringify(result));
               db.close();
             });
           });
@@ -255,11 +256,11 @@ app.get('/orders', function (req, res) {
         else{
     MongoClient.connect(url, function(err, db) {
       if (err) throw err;
-      var dbo = db.db("groceryapp");
+      var dbo = db.db("grocery");
       dbo.collection("orders").find({}).toArray(function(err, result) {
         if (err) throw err;
         console.log(result);
-        res.end(JSON.stringify(result));
+        res.send(JSON.stringify(result));
         db.close();
       });
     });
@@ -276,12 +277,12 @@ app.get('/orders', function (req, res) {
         if(true){
             MongoClient.connect(url, function(err, db) {
               if (err) throw err;
-              var dbo = db.db("groceryapp");
+              var dbo = db.db("grocery");
                 var myobj = { products: qproducts, user_id: quser_id, price: qprice, address_id:address_id };
                 dbo.collection("orders").insertOne(myobj,function(err, result) {
                 if (err) throw err;
                 console.log(result);
-                res.end(JSON.stringify(result));
+                res.send(JSON.stringify(result));
                 db.close();
               });
             });
@@ -307,10 +308,10 @@ app.get('/orders', function (req, res) {
       }
     })
     .then(response => {
-      res.end(JSON.stringify(response));
+      res.send(JSON.stringify(response));
     })
     .catch(error => {
-      res.end(JSON.stringify(error));
+      res.send(JSON.stringify(error));
     });
 
   })
@@ -323,12 +324,12 @@ app.post('/users/add', function (req, res) {
           if(true){
               MongoClient.connect(url, function(err, db) {
                 if (err) throw err;
-                var dbo = db.db("groceryapp");
+                var dbo = db.db("grocery");
                   var myobj = req.body;
                   dbo.collection("users").insertOne(myobj,function(err, result) {
                   if (err) throw err;
                   console.log(result);
-                  res.end(JSON.stringify(result));
+                  res.send(JSON.stringify(result));
                   db.close();
                 });
               });
@@ -344,12 +345,12 @@ app.post('/users/login', function (req, res) {
             if(true){
                 MongoClient.connect(url, function(err, db) {
                   if (err) throw err;
-                  var dbo = db.db("groceryapp");
+                  var dbo = db.db("grocery");
                     var myobj = req.body;
                     dbo.collection("users").findOne(myobj,function(err, result) {
                     if (err) throw err;
                     console.log(result);
-                    res.end(JSON.stringify(result));
+                    res.send(result);
                     db.close();
                   });
                 });
@@ -363,11 +364,11 @@ var url = process.env.MONGODB_URI;
     if(id){
         MongoClient.connect(url, function(err, db) {
           if (err) throw err;
-          var dbo = db.db("groceryapp");
+          var dbo = db.db("grocery");
             dbo.collection("address").find({"_id": mongodb.ObjectId(id)}).toArray(function(err, result) {
             if (err) throw err;
             console.log(result);
-            res.end(JSON.stringify(result));
+            res.send(JSON.stringify(result));
             db.close();
           });
         });
@@ -376,17 +377,17 @@ var url = process.env.MONGODB_URI;
     else{
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
-  var dbo = db.db("groceryapp");
+  var dbo = db.db("grocery");
   dbo.collection("address").find({}).toArray(function(err, result) {
   if (err) throw err;
   console.log(result);
-  res.end(JSON.stringify(result));
+  res.send(JSON.stringify(result));
   db.close();
 });
   // dbo.collection("kart").find({}).toArray(function(err, result) {
   //   if (err) throw err;
   //   console.log(result);
-  //   res.end(JSON.stringify(result));
+  //   res.send(JSON.stringify(result));
   //   db.close();
   // });
 });
@@ -402,14 +403,14 @@ var url = process.env.MONGODB_URI;
     if(true){
         MongoClient.connect(url, function(err, db) {
           if (err) throw err;
-          var dbo = db.db("groceryapp");
+          var dbo = db.db("grocery");
            // var myobj = { product_id: qproduct_id, user_id: quser_id, qty: qqty };
              var myobj = req.body;
              console.log(JSON.stringify(myobj));
             dbo.collection("address").insertOne(myobj,function(err, result) {
             if (err) throw err;
             console.log(result);
-            res.end(JSON.stringify(result));
+            res.send(JSON.stringify(result));
             db.close();
           });
         });
@@ -424,10 +425,10 @@ app.post('/address/delete', function (req, res) {
       if(true){
           MongoClient.connect(url, function(err, db) {
             if (err) throw err;
-            var dbo = db.db("groceryapp");
+            var dbo = db.db("grocery");
               dbo.collection("address").deleteOne(myobj,function(err, result) {
               if (err) throw err;
-              res.end(JSON.stringify(result));
+              res.send(JSON.stringify(result));
               db.close();
             });
           });         
@@ -443,12 +444,12 @@ app.post('/address/delete', function (req, res) {
         if(true){
             MongoClient.connect(url, function(err, db) {
               if (err) throw err;
-              var dbo = db.db("groceryapp");
+              var dbo = db.db("grocery");
                 var myobj = req.body;
                 dbo.collection("demo_patients").insertOne(myobj,function(err, result) {
                 if (err) throw err;
                 console.log(result);
-                res.end(JSON.stringify(result));
+                res.send(JSON.stringify(result));
                 db.close();
               });
             });
