@@ -338,10 +338,9 @@ app.post('/users/add', function (req, res) {
   })
   
 app.post('/users/login', function (req, res) {
-     
         console.log(req.body);
-    
         var url = process.env.MONGODB_URI;
+        try{
             if(true){
                 MongoClient.connect(url, function(err, db) {
                   if (err) throw err;
@@ -356,6 +355,9 @@ app.post('/users/login', function (req, res) {
                 });
                 
             }
+          }catch(ex){
+            res.status(203).send("Invalid Credentilas")
+          }
         })
 
 app.get('/address', function (req, res) {
@@ -457,7 +459,7 @@ app.post('/address/delete', function (req, res) {
         }
 })
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3777;
 app.listen(PORT, err => {
     if(err) throw err;
     console.log("%c Server running", "color: green");
